@@ -35,11 +35,11 @@ module RedisCaches
 
       @namespace = @redis.namespace || DEFAULT_NAMESPACE
       @worker_id = opts[:worker_id] || Socket.gethostname
-      @bucket = opts[:bucket] || DEFAULT_BUCKET
+      @bucket = opts[:s3_bucket] || DEFAULT_BUCKET
       @folder = namespace.gsub(/:/,"-")
       @name = namespace.gsub(/:/,"-")
-      @save_dir = opts[:save_dir] || "./#{namespace}"
-      @keep_tmp_files = opts[:keep_tmp_files]
+      @save_dir = opts[:keep_tmp_files] || "./#{namespace}"
+      @keep_tmp_files = !opts[:keep_tmp_files].nil?
       @s3cmd = S3CMD
     end
     
