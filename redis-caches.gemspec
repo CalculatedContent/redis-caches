@@ -1,5 +1,5 @@
 spec = Gem::Specification.new do |s|
-  s.name = "redis-cacher"
+  s.name = "redis-caches"
   s.version = "0.1"
   s.author = "Charles H. Martin, PhD"
   s.homepage    = "http://github.com/CalculatedContent/redis-caches"
@@ -8,8 +8,6 @@ spec = Gem::Specification.new do |s|
   s.summary     = "Redis Caches serializes a redis namespace to s3"
   s.require_path = "lib"
 
-  s.add_dependency "json"
-  s.add_dependency "zlib"
   s.add_dependency "redis", ">=3.0.3"   
   s.add_dependency "hiredis", "~> 0.4.5"
   s.add_dependency "redis-namespace", ">=1.2.1"

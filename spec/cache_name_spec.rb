@@ -1,4 +1,5 @@
 $:.unshift(File.dirname(__FILE__))
+require 'spec_helper'
 require 'redis'
 require 'redis-namespace'
 require 'redis-caches/version'

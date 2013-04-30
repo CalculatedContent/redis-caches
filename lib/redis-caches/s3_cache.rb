@@ -28,7 +28,7 @@ module RedisCaches
     S3CMD = 's3cmd'
 
     attr_reader :namespace, :worker_id, :bucket, :folder, :name, :save_dir, :s3cmd
-
+    
     def initialize(redis_namespace, opts = {})
       @redis = redis_namespace
       @opts = opts
@@ -50,6 +50,10 @@ module RedisCaches
     
     def keep_tmp_files=(tf)
       @keep_tmp_files = tf
+    end
+    
+    def bucket=(b)
+      @bucket = b
     end
 
     def close

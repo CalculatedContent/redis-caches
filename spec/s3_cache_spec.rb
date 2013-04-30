@@ -1,4 +1,5 @@
 $:.unshift(File.dirname(__FILE__))
+require 'spec_helper'
 require 'redis'
 require 'redis-namespace'
 require 'redis-caches/version'
@@ -112,12 +113,18 @@ module RedisCaches
       Dir.exists?(@redis.s3.save_dir).should be false
     end
     
-    # assumes s3cmd is set up
-    # no idea how to mock this out yet
-    it 'should write a file to a tmp s3 bucket ' do
-      # create tmp bucket using s3cmd
-      # delete tmp bucket using s3cmd
-    end
+    # # assumes s3cmd spec-tests bucket is set up
+    # # this is awful...really need fog
+    # it 'should write a file to a tmp s3 bucket ' do
+#       
+      # bucket = "spec-tests"
+      # @redis.s3.bucket = bucket
+      # @redis.s3.bucket.should eq bucket
+#       
+      # @redis.incr "count"
+      # keys = @redis.s3.save!
+#       
+    # end
     
   end
 
