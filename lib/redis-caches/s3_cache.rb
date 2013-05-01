@@ -92,7 +92,7 @@ module RedisCaches
       FileUtils.mkdir_p keep_dir if keep_tmp_files?
       Dir.mktmpdir do |dir|
         keys, tmpfile = save_to(dir)
-        if tmpfile then
+        unless keys.empty? then
           cmd = "#{s3cmd} put #{dir}/#{tmpfile} #{aws_filename}"
           system cmd
           FileUtils.mv(File.join(dir,tmpfile), keep_dir) if keep_tmp_files?
