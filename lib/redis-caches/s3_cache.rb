@@ -92,7 +92,8 @@ module RedisCaches
       FileUtils.mkdir_p keep_dir if keep_tmp_files?
       Dir.mktmpdir do |dir|
         keys, tmpfile = save_to(dir)
-        $stderr << "num keys to save from s3 cache #{keys.size}  #{keys.empty?}"
+        $stderr << "num keys to save from s3 cache #{keys.size}  #{keys.empty?} \n"
+        $stderr << keys.inspect << "\n"
         unless keys.empty? then
           cmd = "#{s3cmd} put #{dir}/#{tmpfile} #{aws_filename}"
           system cmd
