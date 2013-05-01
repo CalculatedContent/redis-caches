@@ -92,15 +92,18 @@ module RedisCaches
       FileUtils.mkdir_p keep_dir if keep_tmp_files?
       Dir.mktmpdir do |dir|
         keys, tmpfile = save_to(dir)
-        cmd = "#{s3cmd} put #{dir}/#{tmpfile} #{aws_filename}"
-        system cmd
-        FileUtils.mv(File.join(dir,tmpfile), keep_dir) if keep_tmp_files?
+        if tmpfile then
+          cmd = "#{s3cmd} put #{dir}/#{tmpfile} #{aws_filename}"
+          system cmd
+          FileUtils.mv(File.join(dir,tmpfile), keep_dir) if keep_tmp_files?
+        end
       end
       return keys
     end
 
     def save_to(dir=".")
       keys, filename = @redis.keys("*"), tmpfile()
+      return [], nil if keys.empty?
       Zlib::GzipWriter.open(File.join(dir,filename)) do |gz|
         keys.each do |k|
           line = {k => @redis[k]}.to_json

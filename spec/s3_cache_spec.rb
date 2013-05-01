@@ -33,7 +33,7 @@ module RedisCaches
     end
     
     it "should not set keep_tmp_files?  " do
-      @redis.s3.keep_tmp_files?.should be nil
+      @redis.s3.keep_tmp_files?.should be false
     end
     
     
@@ -111,6 +111,17 @@ module RedisCaches
       @redis.keys.size.should eq 0
       
       Dir.exists?(@redis.s3.save_dir).should be false
+    end
+    
+    
+    it 'should not save if keys are empty' do
+        @redis.s3.keep_tmp_files = true
+        keys = @redis.s3.save!  
+        keys.size.should eq 0 
+        Dir.exists?(@redis.s3.save_dir).should be true
+        Dir.entries(@redis.s3.save_dir).size.should be 2
+
+        FileUtils.rm_rf(@redis.s3.save_dir)
     end
     
     # # assumes s3cmd spec-tests bucket is set up
