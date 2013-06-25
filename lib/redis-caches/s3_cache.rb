@@ -5,6 +5,8 @@ require 'redis-caches/cache_name'
 require 'redis-namespace'
 require 'tmpdir'
 
+#TODO: migrate to fog
+
 class Redis
   
   class Namespace
