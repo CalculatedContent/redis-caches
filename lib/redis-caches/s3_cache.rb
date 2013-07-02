@@ -103,12 +103,20 @@ module RedisCaches
       return keys
     end
 
+
+#TODO:try to unconvert redis json strings , then reparse
+# slow but useful
+# generally, should just convert any object by type but need this too
+# for hash keys
+
     def save_to(dir=".")
       keys, filename = @redis.keys("*"), tmpfile()
       return [], nil if keys.empty?
       Zlib::GzipWriter.open(File.join(dir,filename)) do |gz|
         keys.each do |k|
-          line = {k => @redis[k]}.to_json
+          # if val can be parsed, unparse, add key, and re-encode
+          #  awful but needs to be done
+          line = {k => @redis[k]}.to_json  
           gz.write line
           gz.write "\n"
         end
