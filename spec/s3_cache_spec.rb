@@ -140,3 +140,6 @@ module RedisCaches
   end
 
 end
+
+#TODO:  fix the spec to support flatten on/off
+#TODO:  add fog version

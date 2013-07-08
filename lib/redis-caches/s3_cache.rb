@@ -109,14 +109,24 @@ module RedisCaches
 # generally, should just convert any object by type but need this too
 # for hash keys
 
-    def save_to(dir=".")
+    def save_to(dir=".", flatten=true, key="s3id")
       keys, filename = @redis.keys("*"), tmpfile()
       return [], nil if keys.empty?
       Zlib::GzipWriter.open(File.join(dir,filename)) do |gz|
         keys.each do |k|
-          # if val can be parsed, unparse, add key, and re-encode
-          #  awful but needs to be done
-          line = {k => @redis[k]}.to_json  
+          
+          line = if flatten then
+            begin
+              hsh = JSON.parse(@redis[k])
+              hsh[key] = k
+              hsh.to_json
+            rescue JSON::ParserError
+              {k => @redis[k]}.to_json 
+            end
+          else
+            {k => @redis[k]}.to_json 
+          end
+                
           gz.write line
           gz.write "\n"
         end
